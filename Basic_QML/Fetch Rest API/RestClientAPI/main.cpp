@@ -1,6 +1,4 @@
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include "appwrapper.h"
 
 int main(int argc, char *argv[])
@@ -10,17 +8,10 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     AppWrapper appwraper;
 
+    if(!appwraper.initialize())
+       QCoreApplication::exit(-1);;
 
-    QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("Wrapper",&appwraper);
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
 
     return app.exec();
 }

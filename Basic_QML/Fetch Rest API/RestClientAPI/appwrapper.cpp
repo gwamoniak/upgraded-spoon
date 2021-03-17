@@ -3,6 +3,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QVariant>
 #include "appwrapper.h"
 
 AppWrapper::AppWrapper(QObject *parent) : QObject(parent),
@@ -29,7 +30,11 @@ void AppWrapper::fetchPosts(const int number)
 
 void AppWrapper::removeLast()
 {
-
+    if(!mJokes.isEmpty())
+    {
+        mJokes.removeLast();
+        resetModel();
+    }
 }
 
 QStringList AppWrapper::jokes() const
@@ -40,6 +45,23 @@ QStringList AppWrapper::jokes() const
 void AppWrapper::setJokes(const QStringList &jokes)
 {
     mJokes = jokes;
+}
+
+bool AppWrapper::initialize()
+{
+
+    mEngine.rootContext()->setContextProperty("Wrapper",this);
+    resetModel();
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    mEngine.load(url);
+    if(mEngine.rootObjects().isEmpty())
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 }
 
 void AppWrapper::dataReadyRead()
@@ -64,8 +86,22 @@ void AppWrapper::dataReadFinished()
        {
            QJsonObject object = array.at(i).toObject();
            QString joke = object["joke"].toString();
-           qDebug() << joke;
+
+           mJokes.append(joke);
+           //qDebug() << joke;
+       }
+       if(array.size() != 0)
+       {
+         resetModel();
+
        }
 
+       mDataBuffer->clear();
+
     }
+}
+
+void AppWrapper::resetModel()
+{
+    mEngine.rootContext()->setContextProperty("myModel",QVariant::fromValue(mJokes));
 }

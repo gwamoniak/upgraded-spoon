@@ -5,6 +5,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 class AppWrapper : public QObject
 {
@@ -20,6 +22,8 @@ public:
     QStringList jokes() const;
     void setJokes(const QStringList &jokes);
 
+    bool initialize();
+
 signals:
 
 public slots:
@@ -34,7 +38,10 @@ private:
     QNetworkReply * mNetReply;
     QByteArray *mDataBuffer;
     QStringList mJokes;
+    // dont need to initilize as it is on stack
+    QQmlApplicationEngine mEngine;
 
+    void resetModel();
 };
 
 #endif // APPWRAPPER_H
