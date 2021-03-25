@@ -1,6 +1,8 @@
 #include <QDebug>
 #include "counter.h"
 
+
+// counting
 Counter::Counter(QObject *parent) : QObject(parent),
     m_count(0),
     m_counting(Counting::CountDirection::DOWN),
