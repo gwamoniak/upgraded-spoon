@@ -50,3 +50,4 @@ compile_commands.json
 
 # QtCreator local machine specific files for imported projects
 *creator.user*
+Qt_DesignPatterns/ObjectPool/Interfaces/iPooIitem.h
