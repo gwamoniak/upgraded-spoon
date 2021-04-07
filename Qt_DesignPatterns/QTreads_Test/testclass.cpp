@@ -10,8 +10,21 @@ TestClass::~TestClass()
     qInfo()<< this << "DeConstructed on:" << QThread::currentThread();
 }
 
+int TestClass::getValue() const
+{
+    return value;
+}
+
+void TestClass::setValue(int value)
+{
+    value = value;
+}
+
 void TestClass::run()
 {
+    // modify the value
+    value = 10;
+
     qInfo() << this << "Run on: " << QThread::currentThread();
 
     // do thread stuff here

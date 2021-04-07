@@ -12,10 +12,15 @@ public:
     explicit TestClass(QObject *parent = nullptr);
     ~TestClass();
 
+
 signals:
 
-
+public:
+    int value;
     // QThread interface
+    int getValue() const;
+    void setValue(int value);
+
 protected:
     void run() override;
 };
