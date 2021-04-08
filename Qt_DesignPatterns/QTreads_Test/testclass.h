@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QThread>
 
-class TestClass : public QThread
+class TestClass : public QObject//public QThread
 {
     Q_OBJECT
 public:
@@ -14,15 +14,17 @@ public:
 
 
 signals:
-
+ void finished();
 public:
     int value;
-    // QThread interface
-    int getValue() const;
+     int getValue() const;
     void setValue(int value);
 
+public slots:
+    void run();
+
 protected:
-    void run() override;
+    //void run() override;
 };
 
 #endif // TESTCLASS_H
