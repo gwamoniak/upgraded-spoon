@@ -3,13 +3,14 @@
 
 #include <QLabel>
 #include <QMimeData>
+#include <QFileInfo>
 
 class DragDropLabel : public QLabel
 {
     Q_OBJECT
 public:
     explicit DragDropLabel(QWidget *parent = nullptr);
-
+        bool isImage(QString fullPath);
 
 signals:
     void mimeChanged(const QMimeData * mimeData = nullptr);
@@ -23,6 +24,7 @@ protected:
 
 private:
     void clear();
+
 
 };
 

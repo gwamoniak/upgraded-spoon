@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMimeData>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDragLeaveEvent>
+#include <QDropEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,6 +27,20 @@ void MainWindow::mimeChanged(const QMimeData *mimedata)
     ui->textEdit->clear();
     if(!mimedata)
         return;
+
+    if(mimedata->hasImage() && mimedata->hasUrls())
+    {
+        QList<QUrl> urls = mimedata->urls();
+              if(urls.count() > 1)
+                   return;
+
+        QFileInfo file(urls.at(0).toLocalFile());
+               QPixmap mPixmap;
+               if(dragDropLabel->isImage(file.absoluteFilePath()) && (mPixmap.load(file.absoluteFilePath()))){
+                  ui->picture->setPixmap(mPixmap.scaled(ui->picture->size())) ;
+               }
+
+    }
 
     QStringList formats = mimedata->formats();
     for( int i= 0; i < formats.size();i++)
@@ -62,7 +80,7 @@ void MainWindow::mimeChanged(const QMimeData *mimedata)
 
 void MainWindow::on_clearButton_clicked()
 {
-    ui->textEdit->clear();
 
 }
+
 

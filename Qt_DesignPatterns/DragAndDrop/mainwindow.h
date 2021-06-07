@@ -21,6 +21,7 @@ private slots:
 
     void on_clearButton_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     DragDropLabel * dragDropLabel;

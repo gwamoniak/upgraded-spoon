@@ -70,3 +70,15 @@ void DragDropLabel::clear()
     setBackgroundRole(QPalette::Dark);
     emit mimeChanged();
 }
+
+bool DragDropLabel::isImage(QString fullPath)
+{
+    QFileInfo file(fullPath);
+       return ((file.suffix()=="png") ||
+               (file.suffix() =="PNG") ||
+               (file.suffix() == "jpg") ||
+               (file.suffix() =="JPG")||
+               (file.suffix() == "jpeg") ||
+               (file.suffix() =="JPeG"));
+
+}
