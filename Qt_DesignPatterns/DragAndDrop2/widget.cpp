@@ -24,4 +24,3 @@ Widget::~Widget()
 {
     delete ui;
 }
-
