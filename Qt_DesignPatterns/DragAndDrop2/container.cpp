@@ -97,11 +97,13 @@ void Container::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-qtcustomitem"))
     {
+
+
         if (event->source() == this)
         {
             event->setDropAction(Qt::MoveAction);
             event->accept();
-            //event->ignore();
+
         }
         else
         {
@@ -117,24 +119,12 @@ void Container::dragEnterEvent(QDragEnterEvent *event)
 
 void Container::dragMoveEvent(QDragMoveEvent *event)
 {
-
-}
-
-void Container::dragLeaveEvent(QDragLeaveEvent *event)
-{
-    QWidget::dragLeaveEvent(event);
-
-}
-
-void Container::dropEvent(QDropEvent *event)
-{
     if (event->mimeData()->hasFormat("application/x-qtcustomitem"))
     {
         if (event->source() == this)
         {
             event->setDropAction(Qt::MoveAction);
             event->accept();
-            //event->ignore();
         }
         else
         {
@@ -146,6 +136,50 @@ void Container::dropEvent(QDropEvent *event)
     {
         event->ignore();
     }
+
+}
+
+void Container::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    QWidget::dragLeaveEvent(event);
+
+}
+
+void Container::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasFormat("application/x-qtcustomitem")) {
+
+        QByteArray ba = event->mimeData()->data("application/x-qtcustomitem");
+        QDataStream dataStream(&ba,QIODevice::ReadOnly);
+
+        QPixmap mPixmap;
+        QPoint offset;
+
+        dataStream >> mPixmap >> offset;
+
+        QLabel * newLabel = new QLabel(this);
+        newLabel->setPixmap(mPixmap);
+        newLabel->move(event->pos() - offset);
+        newLabel->show();
+        newLabel->setAttribute(Qt::WA_DeleteOnClose);
+
+        if (event->source() == this)
+        {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+
+        }
+        else
+        {
+            event->acceptProposedAction();
+        }
+
+    }
+    else
+    {
+        event->ignore();
+    }
+
 
 }
 
