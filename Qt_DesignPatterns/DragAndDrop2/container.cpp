@@ -59,7 +59,7 @@ void Container::mouseMoveEvent(QMouseEvent *event)
             if(!child)
                 return;
 
-            QPixmap cPixmap = *child->pixmap(); // need a fix
+            QPixmap cPixmap = *child->pixmap(); // need a fix ?
             QByteArray byteArray;
             QDataStream dataStream(&byteArray,QIODevice::WriteOnly);
             dataStream << cPixmap << QPoint(event->pos() - child->pos());
